@@ -1,0 +1,70 @@
+---
+title: "p8105_hw1_TM"
+author: "Tianyi Ma"
+date: "9/20/2019"
+output: html_document
+---
+## Problem 1
+
+```{r}
+library(tidyverse)
+mydf = tibble(
+    vec_randomsamp = rnorm(8),
+    vec_randomsamp_pos = vec_randomsamp > 0,
+    vec_char = c("My", "Real", "True", "Hidden", "Name", "is", "Xiaopang", "Zou"),
+    vec_factor=factor(c("yellow","black","white", "yellow","black","white", "yellow","black"))
+)
+mean_ran=mean(pull(mydf, vec_randomsamp))
+mean_ran_pos=mean(pull(mydf, vec_randomsamp_pos))
+mean_char=mean(pull(mydf, vec_char))
+mean_fac=mean(pull(mydf, vec_factor))
+
+nummeric_log=as.numeric(pull(mydf, vec_randomsamp_pos))
+as.numeric(pull(mydf, vec_char))
+as.numeric(pull(mydf, vec_factor))
+
+nummeric_log*rnorm(8)
+
+factor_log=as.factor(pull(mydf, vec_randomsamp_pos))
+#it's true&false, so could not mutiply it 
+ 
+numeric_factor_log=as.numeric(factor_log)
+numeric_factor_log*rnorm(8)
+```
+## Problem 2
+```{r}
+library(tidyverse)
+
+set.seed(1234)
+
+plot_df = tibble(
+  x = rnorm(500, sd = .5),
+  y = rnorm(500, sd = .5),
+  vec_log = x+y > 1,
+  vec_num = as.numeric(vec_log),
+  vec_fac = as.factor(vec_log)
+)
+sum(pull(plot_df, vec_log), na.rm = TRUE)
+```
+*The size of the dataset is `r nrow(plot_df)`, and `r ncol(plot_df)`
+
+*The mean of x is `r mean(pull(plot_df, x))`
+
+*The median of x is `r median(pull(plot_df, x))`
+
+*The sd of x is `r sd(pull(plot_df, x))`
+
+*The proportion of `r sum(pull(plot_df, vec_log), na.rm = TRUE)/500`
+
+```{r}
+ggplot(plot_df, aes(x = x, y = y, color = vec_log)) + geom_point()
+ggsave("scatter_plot.pdf", height = 4, width = 6)
+```
+
+
+```{r}
+ggplot(plot_df, aes(x = x, y = y, color = vec_num)) + geom_point()
+```
+```{r}
+ggplot(plot_df, aes(x = x, y = y, color = vec_fac)) + geom_point()
+```
